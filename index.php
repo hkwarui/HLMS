@@ -20,13 +20,9 @@ if (isset($_POST['btn-login'])) {
  $password = $DBcon->real_escape_string($password);
  $pass = sha1($password);
 
-
  $query = $DBcon->query("SELECT login_username, login_status, login_category,login_password FROM login_table WHERE login_username ='$username' AND login_password = '$pass' ");
  $row=$query->fetch_array();
-
-
  $count = $query->num_rows; // if username/password are correct returns must be 1 row
-
  if ($count==1) {
 
     if($row['login_status'] == 1)
@@ -40,7 +36,6 @@ if (isset($_POST['btn-login'])) {
              header("Location: staff/home.php");
              exit;
           }
-
        if($row['login_category'] == 1)
           {
             $_SESSION['username'] = $row['login_username'];
@@ -51,22 +46,18 @@ if (isset($_POST['btn-login'])) {
             exit;
           }
       }
-
     if($row['login_status'] == 0)
       {
-            $msg = "<div class='alert alert-danger'>
-            <span class='glyphicon glyphicon-info-sign'></span> &nbsp; Account is deactivated!. Contact Admin
-            </div>";
-
+         $msg = "<div class='alert alert-danger'>
+          <span class='glyphicon glyphicon-info-sign'></span> &nbsp; Account is deactivated!. Contact Admin
+          </div>";
       }
+      }
+      else {
+      $msg = "<div class='alert alert-danger'>
+       <span class='glyphicon glyphicon-info-sign'></span> &nbsp; Invalid Username or Password !
+       </div>";
  }
- else {
-  $msg = "<div class='alert alert-danger'>
-     <span class='glyphicon glyphicon-info-sign'></span> &nbsp; Invalid Username or Password !
-    </div>";
-
- }
-
  $DBcon->close();
 }
 ?>
